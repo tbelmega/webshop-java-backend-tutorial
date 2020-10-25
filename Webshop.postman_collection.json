@@ -112,6 +112,66 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "POST Orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerId\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"orders"
+					]
+				},
+				"description": "Create a new Order"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Order Positions",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"983d432a-8eb2-4c8b-a903-a6861e8b36d6\",\r\n    \"quantity\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/orders/1ad4c0f2-3cff-4d1c-8b4c-fbb9358e17db/positions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"orders",
+						"1ad4c0f2-3cff-4d1c-8b4c-fbb9358e17db",
+						"positions"
+					]
+				},
+				"description": "Create a new Order"
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
