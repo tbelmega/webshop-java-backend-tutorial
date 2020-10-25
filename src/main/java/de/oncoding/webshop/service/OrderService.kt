@@ -5,15 +5,16 @@ import de.oncoding.webshop.repository.CustomerRepository
 import de.oncoding.webshop.repository.OrderPositionRepository
 import de.oncoding.webshop.repository.OrderRepository
 import de.oncoding.webshop.repository.ProductRepository
+import org.springframework.stereotype.Service
 import java.util.*
 
-class OrderService {
-
-    val orderRepository = OrderRepository()
-    val orderPositionRepository = OrderPositionRepository()
-    val customerRepository = CustomerRepository()
-    val productRepository = ProductRepository()
-
+@Service
+class OrderService(
+        val productRepository: ProductRepository,
+        val orderRepository: OrderRepository,
+        val orderPositionRepository: OrderPositionRepository,
+        val customerRepository: CustomerRepository
+) {
 
     fun createOrder(request: OrderCreateRequest): OrderResponse {
 
@@ -28,11 +29,10 @@ class OrderService {
             request: OrderPositionCreateRequest
     ): OrderPositionResponse {
 
-        orderRepository.findById(orderId)?:
-                throw Exception("Order not found")
+        orderRepository.findById(orderId) ?: throw Exception("Order not found")
 
-        if(productRepository.findById(request.productId).isEmpty)
-                throw Exception("Product not found")
+        if (productRepository.findById(request.productId).isEmpty)
+            throw Exception("Product not found")
 
         val orderPositionResponse = OrderPositionResponse(
                 id = UUID.randomUUID().toString(),

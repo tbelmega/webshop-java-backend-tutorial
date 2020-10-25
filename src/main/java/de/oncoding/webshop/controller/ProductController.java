@@ -11,7 +11,11 @@ import java.util.*;
 @RestController
 public class ProductController {
 
-    ProductRepository productRepository = new ProductRepository();
+    private final ProductRepository productRepository;
+
+    public ProductController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @GetMapping("/products")
     public List<ProductResponse> getAllProducts(
@@ -23,7 +27,7 @@ public class ProductController {
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductResponse> getProductById(
             @PathVariable String id
-    ){
+    ) {
         Optional<ProductResponse> product = productRepository.findById(id);
         if (product.isPresent())
             return ResponseEntity.ok(product.get());
@@ -34,7 +38,7 @@ public class ProductController {
     @DeleteMapping("/products/{id}")
     public ResponseEntity deleteProduct(
             @PathVariable String id
-    ){
+    ) {
         productRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -42,7 +46,7 @@ public class ProductController {
     @PostMapping("/products")
     public ProductResponse createProduct(
             @RequestBody ProductCreateRequest request
-    ){
+    ) {
         return productRepository.save(request);
     }
 
