@@ -54,6 +54,36 @@
 			"response": []
 		},
 		{
+			"name": "PUT Product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"priceInCent\": 32499\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				},
+				"description": "Create a new Product"
+			},
+			"response": []
+		},
+		{
 			"name": "GET Product by Id",
 			"request": {
 				"method": "GET",
@@ -114,6 +144,27 @@
 			"response": []
 		},
 		{
+			"name": "GET Customer Shopping Cart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/customers/1/shoppingcart",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"1",
+						"shoppingcart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST Orders",
 			"request": {
 				"method": "POST",
@@ -143,13 +194,13 @@
 			"response": []
 		},
 		{
-			"name": "POST Order Positions",
+			"name": "PUT Order",
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"productId\": \"983d432a-8eb2-4c8b-a903-a6861e8b36d6\",\r\n    \"quantity\": 5\r\n}",
+					"raw": "{\r\n    \"orderStatus\": \"DELIVERED\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -157,7 +208,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/orders/1ad4c0f2-3cff-4d1c-8b4c-fbb9358e17db/positions",
+					"raw": "localhost:8080/api/orders/1",
 					"host": [
 						"localhost"
 					],
@@ -165,7 +216,37 @@
 					"path": [
 						"api",
 						"orders",
-						"1ad4c0f2-3cff-4d1c-8b4c-fbb9358e17db",
+						"1"
+					]
+				},
+				"description": "Create a new Order"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Order Positions",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"04ea7665-9c3c-4cc8-ad8c-458ef241fc2b\",\r\n    \"quantity\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/orders/47973f71-12c0-486c-a2ee-5c4ed7e844d5/positions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"orders",
+						"47973f71-12c0-486c-a2ee-5c4ed7e844d5",
 						"positions"
 					]
 				},
