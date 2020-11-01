@@ -1,5 +1,6 @@
 package de.oncoding.webshop.service
 
+import de.oncoding.webshop.entity.OrderEntity
 import de.oncoding.webshop.exceptions.IdNotFoundException
 import de.oncoding.webshop.exceptions.WebshopException
 import de.oncoding.webshop.model.*
@@ -79,6 +80,43 @@ class OrderService(
                 orderTime = savedOrder.orderTime,
                 status = savedOrder.status,
                 orderPositions = emptyList()
+        )
+    }
+
+    fun getOrder(id: String): GetOrderResponse {
+        val order = orderRepository.getOne(id)
+
+        val customer = customerRepository.getOne(order.customerId)
+
+        val positions = orderPositionRepository
+                .findAll()
+                .filter { it.orderId == order.id }
+                .map {
+                    val productEntity = productRepository.getOne(it.productId)
+                    GetOrderPositionResponse(
+                            id = it.id,
+                            quantity = it.quantity,
+                            product = ProductResponse(
+                                    productEntity.id,
+                                    productEntity.name,
+                                    productEntity.description,
+                                    productEntity.priceInCent,
+                                    productEntity.tags
+                            )
+                    )
+                }
+
+        return GetOrderResponse(
+                id = order.id,
+                status = order.status,
+                orderTime = order.orderTime,
+                customer = CustomerResponse(
+                        id = customer.id,
+                        firstName = customer.firstName,
+                        lastName = customer.lastName,
+                        email = customer.email
+                ),
+                orderPositions = positions
         )
     }
 
