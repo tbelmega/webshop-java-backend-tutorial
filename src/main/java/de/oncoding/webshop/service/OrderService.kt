@@ -14,7 +14,6 @@ import java.util.*
 class OrderService(
         val productRepository: ProductRepository,
         val orderRepository: OrderRepository,
-        val orderPositionRepository: OrderPositionRepository,
         val customerRepository: CustomerRepository
 ) {
 
@@ -25,7 +24,8 @@ class OrderService(
                 id = UUID.randomUUID().toString(),
                 customerId = request.customerId,
                 orderTime = LocalDateTime.now(),
-                status = OrderStatus.NEW
+                status = OrderStatus.NEW,
+                orderPositions = emptyList()
         )
 
         val savedOrder = orderRepository.save(order)
@@ -38,11 +38,7 @@ class OrderService(
             request: OrderPositionCreateRequest
     ): OrderPositionResponse {
 
-        orderRepository.findById(orderId)
-                ?: throw IdNotFoundException(
-                        message = "Order with $orderId not found",
-                        statusCode = HttpStatus.BAD_REQUEST
-                )
+        val order: OrderEntity = orderRepository.getOne(orderId)
 
         if (productRepository.findById(request.productId).isEmpty)
             throw WebshopException(
@@ -52,13 +48,17 @@ class OrderService(
 
         val orderPosition = OrderPositionEntity(
                 id = UUID.randomUUID().toString(),
-                orderId = orderId,
                 productId = request.productId,
                 quantity = request.quantity
         )
-        val savedOrderPosition = orderPositionRepository.save(orderPosition)
+        val updatedOrderPositions = order.orderPositions.plus(orderPosition)
 
-        return mapToResponse(savedOrderPosition)
+        val updatedOrder = order.copy(
+                orderPositions = updatedOrderPositions
+        )
+        orderRepository.save(updatedOrder)
+
+        return mapToResponse(orderPosition)
     }
 
     fun updateOrder(id: String, request: OrderUpdateRequest): OrderResponse {
@@ -88,9 +88,8 @@ class OrderService(
 
         val customer = customerRepository.getOne(order.customerId)
 
-        val positions = orderPositionRepository
-                .findAll()
-                .filter { it.orderId == order.id }
+        val positions = order
+                .orderPositions
                 .map {
                     val productEntity = productRepository.getOne(it.productId)
                     GetOrderPositionResponse(
@@ -125,7 +124,6 @@ class OrderService(
         fun mapToResponse(savedOrderPosition: OrderPositionEntity): OrderPositionResponse {
             return OrderPositionResponse(
                     id = savedOrderPosition.id,
-                    orderId = savedOrderPosition.orderId,
                     productId = savedOrderPosition.productId,
                     quantity = savedOrderPosition.quantity
             )

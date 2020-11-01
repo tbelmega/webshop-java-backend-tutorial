@@ -1,6 +1,7 @@
 package de.oncoding.webshop.entity
 
 import de.oncoding.webshop.model.OrderStatus
+import de.oncoding.webshop.repository.OrderPositionEntity
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -12,5 +13,9 @@ data class OrderEntity(
         val orderTime: LocalDateTime,
 
         @Enumerated(EnumType.STRING)
-        val status: OrderStatus
+        val status: OrderStatus,
+
+        @ElementCollection
+        @CollectionTable(name="ORDER_POSITIONS", joinColumns = [JoinColumn(name = "orderId", referencedColumnName = "ID")])
+        val orderPositions: List<OrderPositionEntity>
 )

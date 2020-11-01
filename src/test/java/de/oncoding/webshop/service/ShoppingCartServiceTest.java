@@ -2,8 +2,7 @@ package de.oncoding.webshop.service;
 
 import de.oncoding.webshop.entity.ProductEntity;
 import de.oncoding.webshop.exceptions.IdNotFoundException;
-import de.oncoding.webshop.model.*;
-import de.oncoding.webshop.repository.OrderPositionRepository;
+import de.oncoding.webshop.model.OrderPositionResponse;
 import de.oncoding.webshop.repository.OrderRepository;
 import de.oncoding.webshop.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +28,6 @@ public class ShoppingCartServiceTest {
         productRepository = mock(ProductRepository.class);
         service = new ShoppingCartService(
                 mock(OrderRepository.class),
-                mock(OrderPositionRepository.class),
                 productRepository
         );
     }
@@ -156,7 +154,6 @@ public class ShoppingCartServiceTest {
                 new OrderPositionResponse(
                         "1",
                         "order-id",
-                        savedProduct.getId(),
                         quantity
                 )
         );
