@@ -1,4 +1,4 @@
-package de.oncoding.webshop.repository
+package de.oncoding.webshop.entity
 
 import javax.persistence.Embeddable
 
