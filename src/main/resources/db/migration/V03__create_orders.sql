@@ -16,15 +16,15 @@ create table orders (
 alter table order_positions
        add constraint order_positions_order_id_fk
        foreign key (order_id)
-       references orders;
+       references orders(id);
 
 alter table order_positions
        add constraint order_positions_product_id_fk
        foreign key (product_id)
-       references products;
+       references products(id);
 
 alter table orders
        add constraint orders_customer_id_fk
        foreign key (customer_id)
-       references customers;
+       references customers(id);
 
