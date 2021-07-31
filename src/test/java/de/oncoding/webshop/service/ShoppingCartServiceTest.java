@@ -153,7 +153,7 @@ public class ShoppingCartServiceTest {
         orderPositions.add(
                 new OrderPositionResponse(
                         "1",
-                        "order-id",
+                        savedProduct.getId(),
                         quantity
                 )
         );
