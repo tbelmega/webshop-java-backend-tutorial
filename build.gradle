@@ -11,6 +11,7 @@ plugins {
 group = 'de.oncoding'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
 	mavenCentral()
@@ -22,6 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'com.github.ben-manes.caffeine:caffeine:2.9.2'
 
+	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.22'
@@ -39,4 +41,10 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+compileKotlin {
+	kotlinOptions {
+		jvmTarget = JavaVersion.VERSION_1_8
+	}
 }
